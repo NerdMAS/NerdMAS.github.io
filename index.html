@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhammad Adil - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo+2:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+    <style>
+        body {
+            font-family: 'Exo 2', sans-serif;
+            color: #E0E0E0;
+            overflow-y: scroll;
+        }
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .glass-card {
+            background: rgba(23, 23, 43, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(119, 204, 255, 0.3);
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            background: rgba(23, 23, 43, 0.7);
+            border-color: rgba(119, 204, 255, 0.7);
+        }
+        .neon-button {
+            border: 1px solid #77ccff;
+            color: #77ccff;
+            box-shadow: 0 0 5px #77ccff, 0 0 10px #77ccff, 0 0 15px #77ccff;
+            transition: all 0.3s ease;
+        }
+        .neon-button:hover {
+            background: #77ccff;
+            color: #0a0a1f;
+            box-shadow: 0 0 10px #77ccff, 0 0 20px #77ccff, 0 0 30px #77ccff;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(23, 23, 43, 0.5);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(119, 204, 255, 0.5);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(119, 204, 255, 0.8);
+        }
+        body::-webkit-scrollbar {
+            width: 10px;
+        }
+        body::-webkit-scrollbar-track {
+            background: rgba(23, 23, 43, 0.5);
+            border-radius: 10px;
+        }
+        body::-webkit-scrollbar-thumb {
+            background: rgba(119, 204, 255, 0.5);
+            border-radius: 10px;
+        }
+        body::-webkit-scrollbar-thumb:hover {
+            background: rgba(119, 204, 255, 0.8);
+        }
+        html, body {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(119,204,255,0.5) rgba(23,23,43,0.5);
+        }
+        .details-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s cubic-bezier(.77,0,.18,1), padding 0.7s cubic-bezier(.77,0,.18,1);
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .details-content.open {
+            max-height: 1000px;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Space theme for skills */
+        .skill-planet {
+            background: radial-gradient(ellipse at 60% 40%, #1e293b 60%, #0a0a1f 100%);
+            border: 2px solid rgba(119,204,255,0.25);
+            box-shadow: 0 0 24px 4px #77ccff33, 0 0 0 2px #0a0a1f;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem auto;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+            /* Animation for all skill icons */
+            animation: skillIconPulse 2.2s infinite cubic-bezier(.77,0,.18,1);
+        }
+        .skill-planet:hover {
+            transform: scale(1.12) rotate(-2deg);
+            box-shadow: 0 0 40px 8px #77ccff88, 0 0 0 2px #0a0a1f;
+            border-color: #77ccff;
+        }
+        @keyframes skillIconPulse {
+            0% { box-shadow: 0 0 24px 4px #77ccff33, 0 0 0 2px #0a0a1f; transform: scale(1);}
+            50% { box-shadow: 0 0 40px 8px #77ccff88, 0 0 0 2px #0a0a1f; transform: scale(1.08);}
+            100% { box-shadow: 0 0 24px 4px #77ccff33, 0 0 0 2px #0a0a1f; transform: scale(1);}
+        }
+        /* Animated ring for all skills */
+        .skill-ring {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 84px;
+            height: 84px;
+            border: 2px dashed #77ccff55;
+            border-radius: 50%;
+            z-index: 0;
+            animation: skill-ring-spin 8s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes skill-ring-spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg);}
+            100% { transform: translate(-50%, -50%) rotate(360deg);}
+        }
+        /* Remove skill-orbit for consistency */
+        .skill-label {
+            text-align: center;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #b3e6ff;
+            letter-spacing: 0.02em;
+            text-shadow: 0 0 8px #0a0a1f, 0 0 2px #77ccff;
+        }
+        .skills-space-bg {
+            background: linear-gradient(120deg, #0a0a1f 60%, #1e293b 100%);
+            border-radius: 2rem;
+            box-shadow: 0 0 60px 0 #77ccff22;
+            padding: 2.5rem 1.5rem 2.5rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .skills-space-bg:before {
+            content: '';
+            position: absolute;
+            top: -60px; left: 50%; transform: translateX(-50%);
+            width: 300px; height: 120px;
+            background: radial-gradient(ellipse at center, #77ccff33 0%, transparent 80%);
+            z-index: 0;
+            pointer-events: none;
+        }
+        .skills-grid {
+            position: relative;
+            z-index: 1;
+        }
+        /* Spacey section headers */
+        .section-header {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+            z-index: 1;
+        }
+        .section-header .header-glow {
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            transform: translateX(-50%);
+            width: 120%;
+            height: 18px;
+            background: radial-gradient(ellipse at center, #77ccff55 0%, transparent 80%);
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(2px);
+        }
+        /* Animated ring for section headings (except contact) */
+        .section-ring {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 180px;
+            border: 2px dashed #77ccff55;
+            border-radius: 50%;
+            z-index: 0;
+            animation: section-ring-spin 12s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes section-ring-spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg);}
+            100% { transform: translate(-50%, -50%) rotate(360deg);}
+        }
+        /* Animated floating glass cards */
+        .floating-card {
+            animation: floatCard 4s ease-in-out infinite alternate;
+        }
+        @keyframes floatCard {
+            0% { transform: translateY(0px) scale(1);}
+            100% { transform: translateY(-12px) scale(1.02);}
+        }
+        /* Animated comet for section backgrounds */
+        .comet {
+            position: absolute;
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, #77ccff 0%, #fff 60%, transparent 100%);
+            border-radius: 2px;
+            opacity: 0.7;
+            filter: blur(1px);
+            animation: comet-move 6s linear infinite;
+            z-index: 0;
+        }
+        @keyframes comet-move {
+            0% { left: -120px; top: 10%; opacity: 0.7;}
+            40% { opacity: 1;}
+            80% { opacity: 0.7;}
+            100% { left: 110%; top: 80%; opacity: 0;}
+        }
+        /* Animated planet for About section */
+        .about-planet {
+            display: none !important;
+        }
+        @keyframes about-planet-float {
+            0% { transform: translateY(-50%) scale(1);}
+            100% { transform: translateY(-60%) scale(1.08);}
+        }
+        /* Animated orbiting satellite for About */
+        .about-satellite {
+            position: absolute;
+            right: 0;
+            top: 30%;
+            width: 28px;
+            height: 28px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 12px 2px #77ccff99;
+            z-index: 1;
+            animation: satellite-orbit 6s linear infinite;
+        }
+        @keyframes satellite-orbit {
+            0% { top: 30%; right: 0;}
+            50% { top: 10%; right: 30px;}
+            100% { top: 30%; right: 0;}
+        }
+        /* Animated shooting star for Projects */
+        .shooting-star {
+            position: absolute;
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, #fff 0%, #77ccff 100%);
+            border-radius: 1px;
+            opacity: 0.8;
+            filter: blur(1px);
+            animation: shooting-star-move 5s linear infinite;
+            z-index: 0;
+        }
+        @keyframes shooting-star-move {
+            0% { left: -80px; top: 20%;}
+            60% { opacity: 1;}
+            100% { left: 110%; top: 80%; opacity: 0;}
+        }
+        /* Animated ring for Contact */
+        .contact-ring {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 180px;
+            border: 2px dashed #77ccff55;
+            border-radius: 50%;
+            z-index: 0;
+            animation: contact-ring-spin 12s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes contact-ring-spin {
+            0% { transform: translateX(-50%) rotate(0deg);}
+            100% { transform: translateX(-50%) rotate(360deg);}
+        }
+        /* Fade-in animation for section content */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeInUp 1.1s cubic-bezier(.77,0,.18,1) forwards;
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        /* --- Custom Space Animations and Effects --- */
+        /* .orbiting-astronaut { ... } -- REMOVED ASTRONAUT */
+        .floating-planet {
+            display: none !important;
+        }
+        @keyframes floatPlanet {
+            0% { transform: translateY(0) scale(1);}
+            100% { transform: translateY(-30px) scale(1.08);}
+        }
+        .meteor-shower {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .meteor {
+            position: absolute;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #fff 0%, #77ccff 100%);
+            border-radius: 1px;
+            opacity: 0.7;
+            filter: blur(1px);
+            animation: meteor-move 3s linear infinite;
+        }
+        @keyframes meteor-move {
+            0% { left: -60px; top: 10%; opacity: 0.7;}
+            40% { opacity: 1;}
+            80% { opacity: 0.7;}
+            100% { left: 110%; top: 80%; opacity: 0;}
+        }
+        .live-typing {
+            display: inline-block;
+            border-right: 2px solid #77ccff;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: blink-caret 0.8s step-end infinite;
+            max-width: 100vw;
+            word-break: break-word;
+        }
+        @keyframes blink-caret {
+            0%, 100% { border-color: #77ccff; }
+            50% { border-color: transparent; }
+        }
+        /* Section backgrounds for more depth */
+        .section-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse at 60% 40%, #1e293b 60%, #0a0a1f 100%);
+            opacity: 0.7;
+        }
+        .section-stars {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0.7;
+            filter: blur(0.5px);
+            animation: twinkle 2s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.5;}
+            100% { opacity: 1;}
+        }
+
+        /* --- Animated Header Bar --- */
+        .header-animated-glow {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background: linear-gradient(90deg, #0a0a1f 0%, #77ccff33 50%, #0a0a1f 100%);
+            opacity: 0.7;
+            filter: blur(8px);
+            animation: headerGlowMove 6s linear infinite alternate;
+        }
+        @keyframes headerGlowMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        .header-nav-link {
+            position: relative;
+            transition: color 0.2s;
+        }
+        .header-nav-link::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 50%;
+            bottom: -4px;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #77ccff 0%, #fff 100%);
+            border-radius: 2px;
+            transition: width 0.3s, left 0.3s;
+        }
+        .header-nav-link:hover::after, .header-nav-link.active::after {
+            width: 80%;
+            left: 10%;
+        }
+        .header-nav-link:hover, .header-nav-link.active {
+            color: #77ccff;
+            text-shadow: 0 0 8px #77ccff88;
+        }
+        /* Responsive header nav */
+        @media (max-width: 640px) {
+            .header-nav-list {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .header-nav-link {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#0A0A1F]">
+
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Social Links Sidebar -->
+    <aside class="fixed top-1/2 -translate-y-1/2 left-4 z-50 flex flex-col space-y-4">
+        <a href="https://www.linkedin.com/in/muhammad-adil-1a1b3b1b3/" target="_blank" class="glass-card p-3 hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#77ccff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+        </a>
+    </aside>
+
+    <!-- Header Navigation -->
+    <header class="w-full fixed top-0 left-0 z-40 bg-[#0A0A1F]/80 backdrop-blur border-b border-[#77ccff]/20" style="box-shadow: 0 2px 24px 0 #77ccff22;">
+        <div class="header-animated-glow"></div>
+        <nav class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-4 relative z-10">
+            <div class="font-orbitron text-2xl font-bold text-[#77ccff] tracking-widest flex items-center gap-2 animate-pulse" style="text-shadow: 0 0 12px #77ccff88;">
+                <i class="ti ti-rocket text-3xl"></i>
+                Muhammad Adil
+            </div>
+            <ul class="flex space-x-6 font-orbitron text-lg header-nav-list">
+                <li><a href="#about" class="header-nav-link transition">About</a></li>
+                <li><a href="#skills" class="header-nav-link transition">Skills</a></li>
+                <li><a href="#experience" class="header-nav-link transition">Experience</a></li>
+                <li><a href="#projects" class="header-nav-link transition">Projects</a></li>
+                <li><a href="#contact" class="header-nav-link transition">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative w-full min-h-screen custom-scrollbar overflow-y-auto pt-24">
+
+        <!-- Section: Landing -->
+        <section id="landing" class="flex flex-col items-center justify-center text-center p-4 min-h-[80vh] relative overflow-hidden">
+            <div class="section-bg"></div>
+            <div class="section-stars"></div>
+            <div class="meteor-shower"></div>
+            <!-- Astronaut removed as per request -->
+            <!-- <div class="orbiting-astronaut">...</div> -->
+            <!-- Floating planet removed -->
+            <!-- Removed: <div class="text-xl md:text-2xl text-gray-400 tracking-widest fade-in-up" style="animation-delay:0.1s">A MESSAGE FROM EARTH</div> -->
+            <div class="relative flex items-center justify-center w-full">
+                <!-- Removed: <span class="section-ring"></span> -->
+                <h1 class="font-orbitron text-4xl md:text-6xl lg:text-8xl font-bold my-4 text-white fade-in-up" style="animation-delay:0.2s; position:relative; z-index:1;">HELLO, I AM</h1>
+            </div>
+            <div class="relative flex items-center justify-center w-full">
+                <!-- Removed: <span class="section-ring"></span> -->
+                <h2 class="font-orbitron text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold my-4 text-[#77ccff] animate-pulse fade-in-up" style="animation-delay:0.3s; word-break:break-word; max-width:100vw; overflow-wrap:break-word; position:relative; z-index:1;">
+                    <span class="live-typing" id="live-typing"></span>
+                </h2>
+            </div>
+        </section>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+            <!-- Section: About -->
+            <section id="about" class="min-h-[60vh] flex flex-col items-center justify-center text-center py-16 scroll-mt-24 relative overflow-hidden">
+                <div class="section-bg"></div>
+                <div class="section-stars"></div>
+                <!-- About planet removed -->
+                <div class="about-satellite hidden md:block"></div>
+                <div class="comet" style="top:18%;animation-delay:0.5s"></div>
+                <div class="relative flex items-center justify-center w-full">
+                    <span class="section-ring"></span>
+                    <h2 class="section-header font-orbitron text-4xl md:text-5xl font-bold text-[#77ccff] mb-8 fade-in-up" style="animation-delay:0.1s; position:relative; z-index:1;">
+                        ABOUT ME
+                        <span class="header-glow"></span>
+                    </h2>
+                </div>
+                <div class="glass-card p-8 max-w-4xl mx-auto text-left floating-card fade-in-up" style="animation-delay:0.2s; position:relative; z-index:2;">
+                    <div>
+                        <p class="text-lg md:text-xl leading-relaxed">
+                            <span class="inline-block align-middle mr-2"><i class="ti ti-rocket text-[#77ccff] text-xl"></i></span>
+                            <span>
+                            Highly skilled and innovative professional with 5+ years of experience in <span class="text-[#77ccff] font-semibold">Game Development</span>, <span class="text-[#77ccff] font-semibold">Generative AI</span>, <span class="text-[#77ccff] font-semibold">Computer Graphics</span>, <span class="text-[#77ccff] font-semibold">Web Development</span>, <span class="text-[#77ccff] font-semibold">DevOps</span>, <span class="text-[#77ccff] font-semibold">AI/ML</span>, and <span class="text-[#77ccff] font-semibold">Metaverse</span> technologies.<br><br>
+                            <span class="inline-block align-middle mr-2"><i class="ti ti-rocket text-[#77ccff] text-xl"></i></span>
+                            Proven expertise in leading cross-functional teams, managing large-scale R&D projects, and delivering cutting-edge solutions. Adept at leveraging <span class="text-[#77ccff] font-semibold">Unreal Engine</span>, <span class="text-[#77ccff] font-semibold">MERN stack</span>, <span class="text-[#77ccff] font-semibold">DevOps</span>, and <span class="text-[#77ccff] font-semibold">AI/ML frameworks</span> to build immersive platforms and synthetic data systems.<br><br>
+                            <span class="inline-block align-middle mr-2"><i class="ti ti-star text-[#77ccff] text-xl"></i></span>
+                            Strong background in R&D, team leadership, and project management, focusing on creating scalable and interactive digital experiences.
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Skills -->
+            <section id="skills" class="min-h-[60vh] flex flex-col items-center justify-center py-16 scroll-mt-24 relative overflow-hidden">
+                <div class="section-bg"></div>
+                <div class="section-stars"></div>
+                <div class="comet" style="top:10%;animation-delay:1.2s"></div>
+                <div class="relative flex items-center justify-center w-full">
+                    <span class="section-ring"></span>
+                    <h2 class="section-header font-orbitron text-4xl md:text-5xl font-bold text-[#77ccff] mb-8 fade-in-up" style="animation-delay:0.1s; position:relative; z-index:1;">
+                        MY SKILLS
+                        <span class="header-glow"></span>
+                    </h2>
+                </div>
+                <div class="skills-space-bg max-w-5xl mx-auto w-full floating-card fade-in-up" style="animation-delay:0.2s">
+                    <div class="skills-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8">
+                        <!-- Skills will be injected here by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Experience -->
+            <section id="experience" class="min-h-[60vh] flex flex-col items-center justify-center py-16 scroll-mt-24 relative overflow-hidden">
+                <div class="section-bg"></div>
+                <div class="section-stars"></div>
+                <div class="comet" style="top:30%;animation-delay:2.2s"></div>
+                <div class="relative flex items-center justify-center w-full">
+                    <span class="section-ring"></span>
+                    <h2 class="section-header font-orbitron text-4xl md:text-5xl font-bold text-[#77ccff] mb-8 fade-in-up" style="animation-delay:0.1s; position:relative; z-index:1;">
+                        WORK EXPERIENCE
+                        <span class="header-glow"></span>
+                    </h2>
+                </div>
+                <div id="experience-list" class="space-y-6 max-w-4xl mx-auto w-full">
+                    <!-- Experience items will be injected here by JS -->
+                </div>
+            </section>
+
+            <!-- Section: Projects -->
+            <section id="projects" class="min-h-[60vh] flex flex-col items-center justify-center py-16 scroll-mt-24 relative overflow-hidden">
+                <div class="section-bg"></div>
+                <div class="section-stars"></div>
+                <div class="shooting-star" style="top:22%;animation-delay:1.7s"></div>
+                <div class="relative flex items-center justify-center w-full">
+                    <span class="section-ring"></span>
+                    <h2 class="section-header font-orbitron text-4xl md:text-5xl font-bold text-[#77ccff] mb-8 fade-in-up" style="animation-delay:0.1s; position:relative; z-index:1;">
+                        MY PROJECTS
+                        <span class="header-glow"></span>
+                    </h2>
+                </div>
+                <div id="project-list" class="space-y-6 max-w-4xl mx-auto w-full">
+                    <!-- Project items will be injected here by JS -->
+                </div>
+            </section>
+
+            <!-- Section: Contact -->
+            <section id="contact" class="min-h-[60vh] flex flex-col items-center justify-center py-16 scroll-mt-24 relative overflow-hidden">
+                <div class="section-bg"></div>
+                <div class="section-stars"></div>
+                <div class="contact-ring"></div>
+                <h2 class="section-header font-orbitron text-4xl md:text-5xl font-bold text-[#77ccff] mb-8 fade-in-up" style="animation-delay:0.1s">
+                    CONTACT ME
+                    <span class="header-glow"></span>
+                </h2>
+                <div class="glass-card p-8 max-w-2xl mx-auto w-full floating-card fade-in-up" style="animation-delay:0.2s; position:relative; z-index:2;">
+                    <form id="contact-form" class="space-y-6">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-300">YOUR EMAIL</label>
+                            <input type="email" id="email" name="email" required class="mt-1 block w-full bg-transparent border-b-2 border-gray-500 focus:border-[#77ccff] focus:ring-0 outline-none transition duration-300">
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-sm font-medium text-gray-300">SUBJECT</label>
+                            <input type="text" id="subject" name="subject" required class="mt-1 block w-full bg-transparent border-b-2 border-gray-500 focus:border-[#77ccff] focus:ring-0 outline-none transition duration-300">
+                        </div>
+                        <div>
+                            <label for="content" class="block text-sm font-medium text-gray-300">MESSAGE</label>
+                            <textarea id="content" name="content" rows="4" required class="mt-1 block w-full bg-transparent border-b-2 border-gray-500 focus:border-[#77ccff] focus:ring-0 outline-none transition duration-300"></textarea>
+                        </div>
+                        <button type="submit" class="w-full neon-button py-3 px-4 rounded-lg font-bold">
+                            <span class="inline-block align-middle mr-2"><i class="ti ti-send"></i></span>
+                            SEND MESSAGE
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Ensure all code runs after DOM is fully loaded
+        (function() {
+            // --- THREE.JS 3D BACKGROUND ---
+            window.addEventListener('DOMContentLoaded', function() {
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+
+                // Starfield
+                const starGeometry = new THREE.BufferGeometry();
+                const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.7, transparent: true });
+                const starVertices = [];
+                for (let i = 0; i < 10000; i++) {
+                    const x = (Math.random() - 0.5) * 2000;
+                    const y = (Math.random() - 0.5) * 2000;
+                    const z = (Math.random() - 0.5) * 2000;
+                    starVertices.push(x, y, z);
+                }
+                starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+                const stars = new THREE.Points(starGeometry, starMaterial);
+                scene.add(stars);
+
+                // Planets removed from background
+
+                // Lighting
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
+                scene.add(ambientLight);
+                const pointLight = new THREE.PointLight(0xffffff, 1);
+                pointLight.position.set(50, 50, 50);
+                scene.add(pointLight);
+
+                camera.position.z = 5;
+
+                // Mouse movement effect
+                let mouseX = 0, mouseY = 0;
+                document.addEventListener('mousemove', (event) => {
+                    mouseX = (event.clientX - window.innerWidth / 2) / 100;
+                    mouseY = (event.clientY - window.innerHeight / 2) / 100;
+                });
+
+                function animate() {
+                    requestAnimationFrame(animate);
+                    stars.rotation.x += 0.0001;
+                    stars.rotation.y += 0.0002;
+                    camera.position.x += (mouseX - camera.position.x) * 0.05;
+                    camera.position.y += (-mouseY - camera.position.y) * 0.05;
+                    camera.lookAt(scene.position);
+                    renderer.render(scene, camera);
+                }
+                animate();
+
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+
+                // --- DATA ---
+                // Skill icon mapping (Tabler Icons)
+                const skillsData = [
+                    { name: 'Project Management', icon: 'ti ti-rocket' },
+                    { name: 'System Design', icon: 'ti ti-cpu' },
+                    { name: 'Agile Project Management', icon: 'ti ti-arrows-shuffle' },
+                    { name: 'Leadership', icon: 'ti ti-star' },
+                    { name: 'Scrum', icon: 'ti ti-users-group' },
+                    { name: 'C++', icon: 'ti ti-brand-cpp' },
+                    { name: 'Python', icon: 'ti ti-brand-python' },
+                    { name: 'AWS', icon: 'ti ti-brand-aws' },
+                    { name: 'Unreal Engine', icon: 'ti ti-brand-unreal' },
+                    { name: 'AR/VR', icon: 'ti ti-device-vr' },
+                    { name: 'Web Development', icon: 'ti ti-world-www' },
+                    { name: '3D Graphics', icon: 'ti ti-cube' },
+                    { name: 'Communication', icon: 'ti ti-message-2' },
+                    { name: 'Documentation', icon: 'ti ti-file-text' }
+                ];
+
+                const experienceData = [
+                    {
+                        title: 'Technical Project Manager',
+                        company: 'Synapsify Systems',
+                        date: '08/2022 - Present',
+                        details: [
+                            'Led multiple R&D projects, including Synthetic Data Platform, Metaverse Platform, and Deep Learning-Based Face Animation, managing a team of 30+ professionals.',
+                            'Oversaw the integration of Unreal Engine, MERN stack, DevOps pipelines, and AI/ML frameworks.',
+                            'Spearheaded the development of a Synthetic Data Platform for AI model training for self-driving cars, robotics, and agritech.',
+                            'Managed the creation of a Metaverse Platform for Allied Bank with cross-platform compatibility (VR, Android, WebGL).',
+                            'Implemented Agile methodologies to ensure timely delivery and resource optimization.'
+                        ]
+                    },
+                    {
+                        title: 'Team Lead/Developer',
+                        company: 'Synapsify Systems',
+                        date: '11/2021 - 08/2022',
+                        details: [
+                            'Supervised a team of 10+ developers and engineers in building immersive gaming and AI-driven applications.',
+                            'Developed and deployed virtual environments for synthetic data generation.',
+                            'Designed and implemented sensor systems for real-time data collection.',
+                            'Mentored junior developers and fostered a collaborative environment.'
+                        ]
+                    },
+                    {
+                        title: 'Unreal Engine Developer',
+                        company: 'Game Dorm',
+                        date: '09/2020 - 10/2021',
+                        details: [
+                            'Created hyper-casual Android games (e.g., The Island Runner, Die Germs Die, Bug Smash Lite).',
+                            'Focused on performance optimization and user engagement.',
+                            'Developed UI/UX for games and managed publishing.',
+                            'Used Nvidia Omniverse for text-to-animation facial animations.'
+                        ]
+                    },
+                    {
+                        title: 'MERN Stack Developer',
+                        company: 'Mega IT Solutions',
+                        date: '03/2019 - 09/2020',
+                        details: [
+                            'Designed and developed full-stack web applications using the MERN stack (MongoDB, Express.js, React, Node.js).',
+                            'Built scalable backend systems and responsive front-end interfaces.',
+                            'Gained foundational experience in web development.'
+                        ]
+                    }
+                ];
+
+                const projectsData = [
+                    {
+                        title: 'Synthetic Data Platform',
+                        description: 'A platform for AI model training, enabling data generation for self-driving cars, robotics, and agritech applications using Unreal Engine.',
+                        details: 'Led the R&D project, managed a team of 30+ professionals, and oversaw the integration of Unreal Engine and AI/ML frameworks to deliver a scalable solution.'
+                    },
+                    {
+                        title: 'Metaverse Platform for Allied Bank',
+                        description: 'A cross-platform Metaverse (VR, Android, WebGL) featuring avatar customization, environment interactions, and voice/chat capabilities.',
+                        details: 'Managed the project from conception to delivery, ensuring seamless cross-platform compatibility and a rich user experience.'
+                    },
+                    {
+                        title: 'Deep Learning-Based Face Animation',
+                        description: 'A project to optimize AI models and animation algorithms for realistic facial expressions in Unreal Engine.',
+                        details: 'Directed the project, focusing on the technical optimization of AI models and ensuring high-fidelity animation outputs.'
+                    },
+                    {
+                        title: 'Hyper-Casual Mobile Games',
+                        description: 'Developed several Android games like "The Island Runner" and "Die Germs Die", focusing on engaging gameplay and performance.',
+                        details: 'Handled development in Unreal Engine, UI/UX design, and publishing to the app store, achieving high user engagement.'
+                    }
+                ];
+
+                // --- UI INJECTION ---
+                // SKILLS
+                const skillsContainer = document.querySelector('#skills .skills-grid');
+                skillsData.forEach((skill, idx) => {
+                    // Add animated ring to all skills
+                    const skillEl = document.createElement('div');
+                    skillEl.className = 'flex flex-col items-center justify-center relative fade-in-up';
+                    skillEl.style.animationDelay = (0.1 + idx * 0.07) + 's';
+                    skillEl.innerHTML = `
+                        <div class="skill-planet shadow-lg relative">
+                            <span class="skill-ring"></span>
+                            <i class="${skill.icon}" style="font-size:2rem; color:#77ccff; z-index:1; position:relative;"></i>
+                        </div>
+                        <div class="skill-label mt-1">${skill.name}</div>
+                    `;
+                    skillsContainer.appendChild(skillEl);
+                });
+
+                // EXPERIENCE
+                const experienceContainer = document.getElementById('experience-list');
+                experienceData.forEach((job, index) => {
+                    const jobEl = document.createElement('div');
+                    jobEl.className = 'glass-card p-6 floating-card fade-in-up';
+                    jobEl.style.animationDelay = (0.1 + index * 0.15) + 's';
+                    jobEl.innerHTML = `
+                        <div class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-2">
+                            <div class="w-full min-w-0">
+                                <h3 class="text-lg sm:text-xl font-bold text-[#77ccff] flex items-center gap-2 truncate">
+                                    <i class="ti ti-rocket text-[#77ccff]"></i> <span class="truncate">${job.title}</span>
+                                </h3>
+                                <p class="text-md text-gray-300 flex items-center gap-2">
+                                    <i class="ti ti-building-bank text-[#77ccff]"></i> ${job.company}
+                                </p>
+                                <p class="text-sm text-gray-400 mt-1 flex items-center gap-2">
+                                    <i class="ti ti-calendar-event text-[#77ccff]"></i> ${job.date}
+                                </p>
+                            </div>
+                            <button class="toggle-details-btn p-2 rounded-full hover:bg-white/10 transition self-end sm:self-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </button>
+                        </div>
+                        <div class="details-content mt-4 border-t border-gray-600/50">
+                            <ul class="list-disc list-inside space-y-2 text-gray-300">
+                                ${job.details.map(d => `<li class="fade-in-up" style="animation-delay:${0.3 + index * 0.1}s">${d}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                    experienceContainer.appendChild(jobEl);
+                });
+
+                // PROJECTS
+                const projectsContainer = document.getElementById('project-list');
+                projectsData.forEach((project, idx) => {
+                    const projectEl = document.createElement('div');
+                    projectEl.className = 'glass-card p-6 floating-card fade-in-up';
+                    projectEl.style.animationDelay = (0.1 + idx * 0.15) + 's';
+                    projectEl.innerHTML = `
+                         <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-bold text-[#77ccff] flex items-center gap-2">
+                                    <i class="ti ti-rocket text-[#77ccff]"></i> ${project.title}
+                                </h3>
+                                <p class="text-md text-gray-300 mt-2">${project.description}</p>
+                            </div>
+                            <button class="toggle-details-btn p-2 rounded-full hover:bg-white/10 transition">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </button>
+                        </div>
+                        <div class="details-content mt-4 border-t border-gray-600/50">
+                            <p class="text-gray-300 fade-in-up" style="animation-delay:${0.3 + idx * 0.1}s">${project.details}</p>
+                        </div>
+                    `;
+                    projectsContainer.appendChild(projectEl);
+                });
+
+                // Toggle details for experience and projects
+                document.addEventListener('click', function(e) {
+                    if (e.target.closest('.toggle-details-btn')) {
+                        const button = e.target.closest('.toggle-details-btn');
+                        const content = button.parentElement.nextElementSibling;
+                        const icon = button.querySelector('svg');
+                        content.classList.toggle('open');
+                        if (content.classList.contains('open')) {
+                            icon.innerHTML = '<line x1="5" y1="12" x2="19" y2="12"></line>';
+                        } else {
+                            icon.innerHTML = '<line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line>';
+                        }
+                    }
+                });
+
+                // Contact Form
+                const contactForm = document.getElementById('contact-form');
+                if (contactForm) {
+                    contactForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        const subject = document.getElementById('subject').value;
+                        const body = document.getElementById('content').value;
+                        const mailtoLink = `mailto:adishah7861@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                        window.location.href = mailtoLink;
+                    });
+                }
+
+                // --- Section fade-in on scroll ---
+                function fadeInOnScroll() {
+                    const fadeEls = document.querySelectorAll('.fade-in-up');
+                    const windowBottom = window.innerHeight + window.scrollY;
+                    fadeEls.forEach(el => {
+                        const rect = el.getBoundingClientRect();
+                        const elTop = rect.top + window.scrollY;
+                        if (windowBottom > elTop + 60) {
+                            el.style.animationPlayState = 'running';
+                        }
+                    });
+                }
+                window.addEventListener('scroll', fadeInOnScroll);
+                fadeInOnScroll();
+
+                // --- Live Typing Animation for Landing Section ---
+                const typingTexts = [
+                    "MUHAMMAD ADIL",
+                    "TECHNICAL PROJECT MANAGER",
+                    "GAME DEVELOPER",
+                    "AI/ML ENTHUSIAST"
+                ];
+                let typingIdx = 0, charIdx = 0, typingForward = true;
+                const typingEl = document.getElementById('live-typing');
+                function typeLoop() {
+                    if (!typingEl) return;
+                    const currentText = typingTexts[typingIdx];
+                    if (typingForward) {
+                        charIdx++;
+                        if (charIdx > currentText.length) {
+                            typingForward = false;
+                            setTimeout(typeLoop, 1200);
+                            return;
+                        }
+                    } else {
+                        charIdx--;
+                        if (charIdx < 0) {
+                            typingForward = true;
+                            typingIdx = (typingIdx + 1) % typingTexts.length;
+                            setTimeout(typeLoop, 400);
+                            return;
+                        }
+                    }
+                    typingEl.textContent = currentText.substring(0, charIdx);
+                    setTimeout(typeLoop, typingForward ? 80 : 30);
+                }
+                typeLoop();
+
+                // --- Meteor Shower Animation ---
+                function spawnMeteors(container, count) {
+                    if (!container) return;
+                    for (let i = 0; i < count; i++) {
+                        const meteor = document.createElement('div');
+                        meteor.className = 'meteor';
+                        meteor.style.top = `${Math.random() * 80 + 5}%`;
+                        meteor.style.animationDelay = `${Math.random() * 3}s`;
+                        meteor.style.width = `${40 + Math.random() * 40}px`;
+                        meteor.style.opacity = 0.5 + Math.random() * 0.5;
+                        container.appendChild(meteor);
+                    }
+                }
+                document.querySelectorAll('.meteor-shower').forEach(ms => spawnMeteors(ms, 6));
+
+                // --- Section Starfields ---
+                function spawnStars(container, count) {
+                    if (!container) return;
+                    for (let i = 0; i < count; i++) {
+                        const star = document.createElement('div');
+                        star.className = 'star';
+                        const size = Math.random() * 2 + 1;
+                        star.style.width = `${size}px`;
+                        star.style.height = `${size}px`;
+                        star.style.left = `${Math.random() * 100}%`;
+                        star.style.top = `${Math.random() * 100}%`;
+                        star.style.animationDelay = `${Math.random() * 2}s`;
+                        container.appendChild(star);
+                    }
+                }
+                document.querySelectorAll('.section-stars').forEach(stars => spawnStars(stars, 32));
+
+                // --- Header nav active state on scroll ---
+                function setActiveNav() {
+                    const sections = ['about', 'skills', 'experience', 'projects', 'contact'];
+                    let active = '';
+                    for (let i = 0; i < sections.length; i++) {
+                        const sec = document.getElementById(sections[i]);
+                        if (sec && window.scrollY + 120 >= sec.offsetTop) {
+                            active = sections[i];
+                        }
+                    }
+                    document.querySelectorAll('.header-nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + active) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+                window.addEventListener('scroll', setActiveNav);
+                setActiveNav();
+            });
+        })();
+    </script>
+</body>
+</html>
