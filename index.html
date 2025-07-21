@@ -309,6 +309,76 @@
             }
         }
 
+        /* Profile Picture Styles */
+        .profile-orbital-ring {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .profile-orbital-ring::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px dashed #77ccff55;
+            border-radius: 50%;
+            animation: orbital-spin 20s linear infinite;
+        }
+        .profile-orbital-ring::after {
+            content: '';
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            border: 2px dashed #77ccff33;
+            border-radius: 50%;
+            animation: orbital-spin 15s linear infinite reverse;
+        }
+        @keyframes orbital-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .profile-picture-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 0 40px 8px #77ccff44, 0 0 80px 16px #77ccff22;
+            border: 3px solid #77ccff;
+            background: radial-gradient(ellipse at center, #1e293b 0%, #0a0a1f 100%);
+            transition: all 0.3s ease;
+        }
+        .profile-picture-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 60px 12px #77ccff66, 0 0 120px 24px #77ccff33;
+            border-color: #77ccff;
+        }
+        .profile-picture {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .profile-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, #77ccff22 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: profileGlow 3s ease-in-out infinite alternate;
+        }
+        @keyframes profileGlow {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.8; }
+        }
+
         /* --- Custom Space Animations and Effects --- */
         /* .orbiting-astronaut { ... } -- REMOVED ASTRONAUT */
         .floating-planet {
@@ -448,6 +518,12 @@
         <a href="https://www.linkedin.com/in/muhammad-adil-336b28167/" target="_blank" class="glass-card p-3 hover:scale-110 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#77ccff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
         </a>
+        <a href="https://github.com/NerdMAS" target="_blank" class="glass-card p-3 hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#77ccff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-1.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        </a>
+        <a href="https://www.instagram.com/nav.maestro/" target="_blank" class="glass-card p-3 hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#77ccff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        </a>
     </aside>
 
     <!-- Header Navigation -->
@@ -508,18 +584,33 @@
                         <span class="header-glow"></span>
                     </h2>
                 </div>
-                <div class="glass-card p-8 max-w-4xl mx-auto text-left floating-card fade-in-up" style="animation-delay:0.2s; position:relative; z-index:2;">
-                    <div>
-                        <p class="text-lg md:text-xl leading-relaxed">
-                            <span class="inline-block align-middle mr-2"><i class="ti ti-rocket text-[#77ccff] text-xl"></i></span>
-                            <span>
-                            Highly skilled and innovative professional with 5+ years of experience in <span class="text-[#77ccff] font-semibold">Game Development</span>, <span class="text-[#77ccff] font-semibold">Generative AI</span>, <span class="text-[#77ccff] font-semibold">Computer Graphics</span>, <span class="text-[#77ccff] font-semibold">Web Development</span>, <span class="text-[#77ccff] font-semibold">DevOps</span>, <span class="text-[#77ccff] font-semibold">AI/ML</span>, and <span class="text-[#77ccff] font-semibold">Metaverse</span> technologies.<br><br>
-                            <span class="inline-block align-middle mr-2"><i class="ti ti-rocket text-[#77ccff] text-xl"></i></span>
-                            Proven expertise in leading cross-functional teams, managing large-scale R&D projects, and delivering cutting-edge solutions. Adept at leveraging <span class="text-[#77ccff] font-semibold">Unreal Engine</span>, <span class="text-[#77ccff] font-semibold">MERN stack</span>, <span class="text-[#77ccff] font-semibold">DevOps</span>, and <span class="text-[#77ccff] font-semibold">AI/ML frameworks</span> to build immersive platforms and synthetic data systems.<br><br>
-                            <span class="inline-block align-middle mr-2"><i class="ti ti-star text-[#77ccff] text-xl"></i></span>
-                            Strong background in R&D, team leadership, and project management, focusing on creating scalable and interactive digital experiences.
-                            </span>
-                        </p>
+                
+                <!-- Profile Picture and Content Container -->
+                <div class="flex flex-col lg:flex-row items-center gap-8 max-w-6xl mx-auto w-full">
+                    <!-- Profile Picture -->
+                    <div class="flex-shrink-0 fade-in-up" style="animation-delay:0.15s; position:relative; z-index:2;">
+                        <div class="profile-orbital-ring">
+                            <div class="profile-picture-container">
+                                <img src="C:\Users\Dell\Desktop\WhatsApp Image 2025-07-19 at 4.07.28 PM.jpeg" alt="Muhammad Adil" class="profile-picture">
+                                <div class="profile-glow"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- About Content -->
+                    <div class="glass-card p-8 flex-1 text-left floating-card fade-in-up" style="animation-delay:0.2s; position:relative; z-index:2;">
+                        <div>
+                            <p class="text-lg md:text-xl leading-relaxed">
+                                <span class="inline-block align-middle mr-2"><i class="ti ti-rocket text-[#77ccff] text-xl"></i></span>
+                                <span>
+                                Highly skilled and innovative professional with 5+ years of experience in <span class="text-[#77ccff] font-semibold">Game Development</span>, <span class="text-[#77ccff] font-semibold">Generative AI</span>, <span class="text-[#77ccff] font-semibold">Computer Graphics</span>, <span class="text-[#77ccff] font-semibold">Web Development</span>, <span class="text-[#77ccff] font-semibold">DevOps</span>, <span class="text-[#77ccff] font-semibold">AI/ML</span>, and <span class="text-[#77ccff] font-semibold">Metaverse</span> technologies.<br><br>
+                                <span class="inline-block align-middle mr-2"><i class="ti ti-rocket text-[#77ccff] text-xl"></i></span>
+                                Proven expertise in leading cross-functional teams, managing large-scale R&D projects, and delivering cutting-edge solutions. Adept at leveraging <span class="text-[#77ccff] font-semibold">Unreal Engine</span>, <span class="text-[#77ccff] font-semibold">MERN stack</span>, <span class="text-[#77ccff] font-semibold">DevOps</span>, and <span class="text-[#77ccff] font-semibold">AI/ML frameworks</span> to build immersive platforms and synthetic data systems.<br><br>
+                                <span class="inline-block align-middle mr-2"><i class="ti ti-star text-[#77ccff] text-xl"></i></span>
+                                Strong background in R&D, team leadership, and project management, focusing on creating scalable and interactive digital experiences.
+                                </span>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -612,6 +703,7 @@
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script>
         // Ensure all code runs after DOM is fully loaded
         (function() {
@@ -682,8 +774,9 @@
                     { name: 'C++', icon: 'ti ti-brand-cpp' },
                     { name: 'Python', icon: 'ti ti-brand-python' },
                     { name: 'AWS', icon: 'ti ti-brand-aws' },
-                    { name: 'Unreal Engine', icon: 'ti ti-brand-unreal' },
+                    { name: 'Unreal Engine', icon: 'ti ti-device-gamepad-2' },
                     { name: 'AR/VR', icon: 'ti ti-device-vr' },
+                    { name: 'Three.js', icon: 'ti ti-cube' },
                     { name: 'Web Development', icon: 'ti ti-world-www' },
                     { name: '3D Graphics', icon: 'ti ti-cube' },
                     { name: 'Communication', icon: 'ti ti-message-2' },
@@ -768,10 +861,30 @@
                     const skillEl = document.createElement('div');
                     skillEl.className = 'flex flex-col items-center justify-center relative fade-in-up';
                     skillEl.style.animationDelay = (0.1 + idx * 0.07) + 's';
+                    
+                    // Custom icon for AR/VR and Three.js
+                    let iconHTML = '';
+                    if (skill.name === 'AR/VR') {
+                        iconHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#77ccff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="z-index:1; position:relative;">
+                            <rect x="2" y="6" width="20" height="12" rx="2" ry="2"/>
+                            <path d="M22 10h-4"/>
+                            <path d="M6 10H2"/>
+                            <path d="M12 6v4"/>
+                        </svg>`;
+                    } else if (skill.name === 'Three.js') {
+                        iconHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#77ccff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="z-index:1; position:relative;">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+                            <line x1="12" y1="22.08" x2="12" y2="12"/>
+                        </svg>`;
+                    } else {
+                        iconHTML = `<i class="${skill.icon}" style="font-size:2rem; color:#77ccff; z-index:1; position:relative;"></i>`;
+                    }
+                    
                     skillEl.innerHTML = `
                         <div class="skill-planet shadow-lg relative">
                             <span class="skill-ring"></span>
-                            <i class="${skill.icon}" style="font-size:2rem; color:#77ccff; z-index:1; position:relative;"></i>
+                            ${iconHTML}
                         </div>
                         <div class="skill-label mt-1">${skill.name}</div>
                     `;
@@ -850,15 +963,87 @@
                     }
                 });
 
-                // Contact Form
+                // Contact Form with EmailJS
                 const contactForm = document.getElementById('contact-form');
                 if (contactForm) {
+                    // Initialize EmailJS
+                    emailjs.init("VxJgfaNJyGJh9A-dn");
+                    
                     contactForm.addEventListener('submit', function(e) {
                         e.preventDefault();
+                        
+                        // Get form data
+                        const email = document.getElementById('email').value;
                         const subject = document.getElementById('subject').value;
-                        const body = document.getElementById('content').value;
-                        const mailtoLink = `mailto:adishah7861@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                        window.location.href = mailtoLink;
+                        const message = document.getElementById('content').value;
+                        
+                        // Validate form data
+                        if (!email || !subject || !message) {
+                            alert('Please fill in all fields');
+                            return;
+                        }
+                        
+                        // Show loading state
+                        const submitBtn = contactForm.querySelector('button[type="submit"]');
+                        const originalText = submitBtn.innerHTML;
+                        submitBtn.innerHTML = '<span class="inline-block align-middle mr-2"><i class="ti ti-loader-2 animate-spin"></i></span>SENDING...';
+                        submitBtn.disabled = true;
+                        
+                        // Prepare email template parameters - using standard EmailJS template variables
+                        const templateParams = {
+                            from_name: email.split('@')[0], // Extract name from email
+                            from_email: email,
+                            to_name: 'Muhammad Adil',
+                            to_email: 'adishah7861@gmail.com',
+                            subject: subject,
+                            message: message,
+                            reply_to: email
+                        };
+                        
+                        console.log('Sending email with params:', templateParams); // Debug log
+                        
+                        // Send email using EmailJS
+                        emailjs.send('service_97rap7q', 'template_cfklcop', templateParams)
+                            .then(function(response) {
+                                console.log('SUCCESS:', response); // Debug log
+                                // Success
+                                submitBtn.innerHTML = '<span class="inline-block align-middle mr-2"><i class="ti ti-check"></i></span>MESSAGE SENT!';
+                                submitBtn.style.background = '#10B981';
+                                submitBtn.style.borderColor = '#10B981';
+                                
+                                // Reset form
+                                contactForm.reset();
+                                
+                                // Reset button after 3 seconds
+                                setTimeout(() => {
+                                    submitBtn.innerHTML = originalText;
+                                    submitBtn.style.background = '';
+                                    submitBtn.style.borderColor = '';
+                                    submitBtn.disabled = false;
+                                }, 3000);
+                            })
+                            .catch(function(error) {
+                                console.error('FAILED:', error); // Debug log
+                                // Error
+                                submitBtn.innerHTML = '<span class="inline-block align-middle mr-2"><i class="ti ti-alert-circle"></i></span>ERROR! TRY AGAIN';
+                                submitBtn.style.background = '#EF4444';
+                                submitBtn.style.borderColor = '#EF4444';
+                                
+                                // Show error details in console
+                                console.error('EmailJS Error Details:', {
+                                    status: error.status,
+                                    text: error.text,
+                                    response: error.response
+                                });
+                                
+                                // Reset button after 3 seconds
+                                setTimeout(() => {
+                                    submitBtn.innerHTML = originalText;
+                                    submitBtn.style.background = '';
+                                    submitBtn.style.borderColor = '';
+                                    submitBtn.disabled = false;
+                                }, 3000);
+                            });
                     });
                 }
 
